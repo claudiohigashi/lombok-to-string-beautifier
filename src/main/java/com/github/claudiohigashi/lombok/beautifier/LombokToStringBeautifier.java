@@ -28,14 +28,14 @@ public class LombokToStringBeautifier {
             ctx.appendChar();
             if (ctx.isOneOf("([")) {
                 ctx.level++;
-                ctx.newLineAndIdent();
+                ctx.newLineAndIndent();
             } else if (ctx.isOneOf(")]")) {
                 ctx.level--;
                 if (ctx.index + 1 < ctx.chars.length && ctx.chars[ctx.index + 1] != ',') {
-                    ctx.newLineAndIdent();
+                    ctx.newLineAndIndent();
                 }
             } else if (ctx.isCurrentChar(',')) {
-                ctx.newLineAndIdent();
+                ctx.newLineAndIndent();
             }
             ctx.index++;
         }
@@ -85,7 +85,7 @@ public class LombokToStringBeautifier {
             return index < chars.length && chars[index] == c;
         }
 
-        void newLineAndIdent() {
+        void newLineAndIndent() {
             stringBuilder.append('\n');
             for (int i = 0; i < level; i++) {
                 stringBuilder.append("    ");
