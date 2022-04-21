@@ -24,6 +24,7 @@ class LombokToStringBeautifierTest {
                 new Person("Anne", 78, new Date(), true, null, null, null),
                 siblings
         );
+        System.out.println(me);
         System.out.println(LombokToStringBeautifier.beautifyLombokToStringObject(me.toString()));
     }
 }

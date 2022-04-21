@@ -7,63 +7,83 @@ public class LombokToStringBeautifier {
     }
 
     public static String beautifyLombokToStringObject(String toString) {
-        StringBuilder stringBuilder = new StringBuilder();
-        char[] chars = toString.toCharArray();
-        beautifyLombokToStringObject(stringBuilder, chars, new Context());
-        return stringBuilder.toString();
+        Context ctx = new Context(toString);
+        beautifyLombokToStringObject(ctx);
+        return ctx.stringBuilder.toString();
     }
 
-    private static void beautifyLombokToStringObject(StringBuilder stringBuilder, char[] chars, Context context) {
-        while (context.pos < chars.length && chars[context.pos] != '(' && chars[context.pos] != ',' && chars[context.pos] != ')') {
-            stringBuilder.append(chars[context.pos]);
-            context.pos++;
-        }
-        if (context.pos >= chars.length) {
-            return;
-        }
-
-        stringBuilder.append(chars[context.pos]);
-        if (chars[context.pos] == '(') {
-            context.level++;
-        } else if (chars[context.pos] == ')') {
-            context.level--;
-            context.pos++;
-            while (context.pos < chars.length && chars[context.pos] == ')') {
-                context.level--;
-                newLineAndIdent(stringBuilder, context.level);
-                stringBuilder.append(chars[context.pos]);
-                context.pos++;
+    private static void beautifyLombokToStringObject(Context ctx) {
+        while (true) {
+            writeAWord(ctx);
+            if (ctx.isEndOfChars()) {
+                break;
             }
-            if (context.pos >= chars.length) {
-                return;
+
+            ctx.appendChar();
+            if (ctx.isCurrentChar('(')) {
+                ctx.level++;
+                newLineAndIdent(ctx);
+            } else if (ctx.isCurrentChar(')')) {
+                ctx.level--;
+                if (ctx.index + 1 < ctx.chars.length && ctx.chars[ctx.index + 1] != ',') {
+                    newLineAndIdent(ctx);
+                }
+            } else if (ctx.isCurrentChar(',')) {
+                newLineAndIdent(ctx);
             }
-            stringBuilder.append(chars[context.pos]);
+            ctx.index++;
         }
-        newLineAndIdent(stringBuilder, context.level);
-        context.pos++;
-        if (context.pos < chars.length && chars[context.pos] == ' ') {
-            context.pos++;
-        }
-        beautifyToStringAttributeName(stringBuilder, chars, context);
     }
 
-    private static void beautifyToStringAttributeName(StringBuilder stringBuilder, char[] chars, Context context) {
-        while (context.pos < chars.length && chars[context.pos] != '=') {
-            stringBuilder.append(chars[context.pos]);
-            context.pos++;
+    private static void writeAWord(Context ctx) {
+        // skip spaces in the beginning
+        while (ctx.isNotEndOfChars() && ctx.isCurrentChar(' ')) {
+            ctx.index++;
         }
-        beautifyLombokToStringObject(stringBuilder, chars, context);
+
+        // write the word
+        while (!ctx.isEndOfChars() && !ctx.isOneOf("()[],=")) {
+            ctx.appendChar();
+            ctx.index++;
+        }
     }
 
-    private static void newLineAndIdent(StringBuilder stringBuilder, int level) {
-        stringBuilder.append('\n');
-        for (int i = 0; i < level; i++) {
-            stringBuilder.append("    ");
+    private static void newLineAndIdent(Context ctx) {
+        ctx.stringBuilder.append('\n');
+        for (int i = 0; i < ctx.level; i++) {
+            ctx.stringBuilder.append("    ");
         }
     }
 
     static class Context {
-        int pos;
+        int index;
         int level;
+        char[] chars;
+        StringBuilder stringBuilder;
+
+        public Context(String toString) {
+            this.chars = toString.toCharArray();
+            this.stringBuilder = new StringBuilder();
+        }
+
+        public void appendChar() {
+            stringBuilder.append(chars[index]);
+        }
+
+        public boolean isNotEndOfChars() {
+            return index < chars.length;
+        }
+
+        public boolean isEndOfChars() {
+            return index >= chars.length;
+        }
+
+        public boolean isOneOf(String string) {
+            return index < chars.length && string.indexOf(chars[index]) != -1;
+        }
+
+        public boolean isCurrentChar(char c) {
+            return index < chars.length && chars[index] == c;
+        }
     }
 }
