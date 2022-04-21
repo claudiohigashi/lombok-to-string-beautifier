@@ -48,7 +48,7 @@ public class LombokToStringBeautifier {
         }
 
         // write the word
-        while (!ctx.isEndOfChars() && !ctx.isOneOf("()[],=")) {
+        while (ctx.isNotEndOfChars() && !ctx.isOneOf("()[],=")) {
             ctx.appendChar();
             ctx.index++;
         }
