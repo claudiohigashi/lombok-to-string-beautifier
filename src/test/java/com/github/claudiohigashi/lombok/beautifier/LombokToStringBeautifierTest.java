@@ -13,14 +13,21 @@ class LombokToStringBeautifierTest {
     @Test
     public void beautifyLombokToStringObject() {
         List<Person> siblings = new ArrayList<Person>();
-        siblings.add(new Person("Alexandre", 13, new Date(), true, null, null, null));
-        siblings.add(new Person("Rogerio", 15, new Date(), true, null, null, null));
-        siblings.add(new Person("Silvio", 16, new Date(), true, null, null, null));
+        siblings.add(newPerson("Alexandre", 13));
+        siblings.add(newPerson("Rogerio", 15));
+        siblings.add(newPerson("Silvio", 16));
 
-        Person me = new Person("John", 18, new Date(), true,
-                new Person("Mark", 82, new Date(), true, null, null, null),
-                new Person("Anne", 78, new Date(), true, null, null, null),
-                siblings
+        List<Person> children = new ArrayList<Person>();
+        children.add(newPerson("Anniek", 7));
+        children.add(newPerson("Mariana", 15));
+        children.add(newPerson("Naomi", 17));
+
+        Person me = new Person("Claudio", 51, new Date(), true,
+                newPerson("Luiz", 82),
+                newPerson("Alzira", 78),
+                siblings,
+                newPerson("Lili", 49),
+                children
         );
         System.out.println("Lombok toString():");
         System.out.println(me);
@@ -28,6 +35,10 @@ class LombokToStringBeautifierTest {
         System.out.println("\nBeautified Lombok toString():");
         System.out.println(LombokToStringBeautifier.beautifyLombokToStringObject(me.toString()));
     }
+    private Person newPerson(String name, int age) {
+        return new Person(name, age, new Date(), true, null, null, null, null, null);
+    }
+
 }
 
 @AllArgsConstructor
@@ -40,4 +51,6 @@ class Person {
     Person father;
     Person mother;
     List<Person> siblings;
+    Person partner;
+    List<Person> children;
 }
