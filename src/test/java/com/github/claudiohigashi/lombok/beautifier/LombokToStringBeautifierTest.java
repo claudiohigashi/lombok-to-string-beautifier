@@ -11,10 +11,10 @@ import java.util.List;
 class LombokToStringBeautifierTest {
 
     /**
-     * This is not actually a test case but more just an usage example
+     * This is not actually a unit test but more just a usage example
      */
     @Test
-    public void beautifyLombokToStringObject() {
+    public void testBeautify() {
         List<Person> siblings = new ArrayList<Person>();
         siblings.add(newPerson("Alex", 13));
         siblings.add(newPerson("Roger", 15));
@@ -32,11 +32,12 @@ class LombokToStringBeautifierTest {
                 newPerson("Ly", 49),
                 children
         );
-        System.out.println("Lombok toString():");
+
+        System.out.println("Original Lombok toString():");
         System.out.println(me);
 
         System.out.println("\nBeautified Lombok toString():");
-        System.out.println(LombokToStringBeautifier.beautifyLombokToStringObject(me.toString()));
+        System.out.println(LombokToStringBeautifier.beautify(me.toString()));
     }
 
     private Person newPerson(String name, int age) {

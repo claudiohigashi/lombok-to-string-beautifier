@@ -12,13 +12,13 @@ package com.github.claudiohigashi.lombok.beautifier;
  * @author Claudio Higashi
  */
 public class LombokToStringBeautifier {
-    public static String beautifyLombokToStringObject(String toString) {
+    public static String beautify(String toString) {
         Context ctx = new Context(toString);
-        beautifyLombokToStringObject(ctx);
+        beautify(ctx);
         return ctx.stringBuilder.toString();
     }
 
-    private static void beautifyLombokToStringObject(Context ctx) {
+    private static void beautify(Context ctx) {
         while (true) {
             writeAWord(ctx);
             if (ctx.isEndOfChars()) {
