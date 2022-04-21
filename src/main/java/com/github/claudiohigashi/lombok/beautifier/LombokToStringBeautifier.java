@@ -20,10 +20,10 @@ public class LombokToStringBeautifier {
             }
 
             ctx.appendChar();
-            if (ctx.isCurrentChar('(')) {
+            if (ctx.isOneOf("([")) {
                 ctx.level++;
                 newLineAndIdent(ctx);
-            } else if (ctx.isCurrentChar(')')) {
+            } else if (ctx.isOneOf(")]")) {
                 ctx.level--;
                 if (ctx.index + 1 < ctx.chars.length && ctx.chars[ctx.index + 1] != ',') {
                     newLineAndIdent(ctx);
