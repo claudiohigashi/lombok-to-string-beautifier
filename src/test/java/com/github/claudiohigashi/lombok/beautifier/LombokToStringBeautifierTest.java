@@ -13,20 +13,20 @@ class LombokToStringBeautifierTest {
     @Test
     public void beautifyLombokToStringObject() {
         List<Person> siblings = new ArrayList<Person>();
-        siblings.add(newPerson("Alexandre", 13));
-        siblings.add(newPerson("Rogerio", 15));
-        siblings.add(newPerson("Silvio", 16));
+        siblings.add(newPerson("Alex", 13));
+        siblings.add(newPerson("Roger", 15));
+        siblings.add(newPerson("Syl", 16));
 
         List<Person> children = new ArrayList<Person>();
-        children.add(newPerson("Anniek", 7));
-        children.add(newPerson("Mariana", 15));
-        children.add(newPerson("Naomi", 17));
+        children.add(newPerson("Ann", 7));
+        children.add(newPerson("Mary", 15));
+        children.add(newPerson("Happy", 17));
 
-        Person me = new Person("Claudio", 51, new Date(), true,
-                newPerson("Luiz", 82),
-                newPerson("Alzira", 78),
+        Person me = new Person("John", 51, new Date(), true,
+                newPerson("Mark", 82),
+                newPerson("Beth", 78),
                 siblings,
-                newPerson("Lili", 49),
+                newPerson("Ly", 49),
                 children
         );
         System.out.println("Lombok toString():");
