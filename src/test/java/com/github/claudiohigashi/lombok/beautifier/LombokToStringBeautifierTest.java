@@ -10,6 +10,9 @@ import java.util.List;
 
 class LombokToStringBeautifierTest {
 
+    /**
+     * This is not actually a test case but more just an usage example
+     */
     @Test
     public void beautifyLombokToStringObject() {
         List<Person> siblings = new ArrayList<Person>();
@@ -35,6 +38,7 @@ class LombokToStringBeautifierTest {
         System.out.println("\nBeautified Lombok toString():");
         System.out.println(LombokToStringBeautifier.beautifyLombokToStringObject(me.toString()));
     }
+
     private Person newPerson(String name, int age) {
         return new Person(name, age, new Date(), true, null, null, null, null, null);
     }
